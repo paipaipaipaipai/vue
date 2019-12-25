@@ -10,7 +10,8 @@ export default new Vuex.Store({
       userId: window.localStorage.getItem("user") == null ? "" : JSON.parse(window.localStorage.getItem("user")).userName,
       userName: window.localStorage.getItem("user") == null ? "" : JSON.parse(window.localStorage.getItem("user")).userName,
       roles: window.localStorage.getItem("user") == null ? "" : JSON.parse(window.localStorage.getItem("user")).roles
-    }
+    },
+    routes: [],
   },
   mutations: {
     login(state, user) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     },
     logout(state) {
       window.localStorage.removeItem("user");
+    },
+    initMenu(state, menus){
+      state.routes = menus;
     }
   }
 });

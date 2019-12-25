@@ -39,16 +39,13 @@
       submitClick: function() {
         var _this = this;
         _this.loading = true;
-        _this.postFormRequest("/login", {
-          username: _this.loginForm.username,
-          password: _this.loginForm.password
+        _this.postRequest("/login", {
+          "username": _this.loginForm.username,
+          "password": _this.loginForm.password
         }).then(resp => {
           _this.loading = false;
           var data = resp.data;
           if (data.status == 1) {
-            _this.message.success({
-              message: data.message
-            });
             _this.$store.commit("login", data.data);
             _this.$router.replace({
               path: "/home"

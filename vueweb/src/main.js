@@ -10,8 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import store from './vuex/store' // 引入store
 
 import {Message} from 'element-ui'
-import {postJsonRequest} from './utils/api'
-import {postFormRequest} from './utils/api'
+import {postRequest} from './utils/api'
 import {initMenu} from './utils/utils'
 
 // 设置为 false 以阻止 vue 在启动时生成生产提示
@@ -19,8 +18,7 @@ Vue.config.productionTip = false
 // Vue使用ElementUI
 Vue.use(ElementUI)
 
-Vue.prototype.postJsonRequest = postJsonRequest;
-Vue.prototype.postFormRequest = postFormRequest;
+Vue.prototype.postRequest = postRequest;
 Vue.prototype.message = Message;
 
 router.beforeEach((to, from, next) => {
