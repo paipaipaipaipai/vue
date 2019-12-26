@@ -9,8 +9,8 @@
               Hello,{{user.userName}}!
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>个人中心</el-dropdown-item>
-              <el-dropdown-item>设置</el-dropdown-item>
+              <!-- <el-dropdown-item>个人中心</el-dropdown-item>
+              <el-dropdown-item>设置</el-dropdown-item> -->
               <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -23,7 +23,7 @@
               <template v-for="(item,index) in this.routes">
                 <el-submenu :key="index" :index="index+''">
                   <template slot="title">
-                    <i :class="item.iconCls" style="color: #20a0ff;width: 14px;"></i>
+                    <i class="el-icon-star-off" style="color: #20a0ff;width: 15px;"></i>
                     <span slot="title">{{item.name}}</span>
                   </template>
                   <el-menu-item width="200px" style="padding-left: 30px;padding-right:0px;margin-left: 0px;width: 170px;text-align: left"

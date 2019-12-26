@@ -15,12 +15,8 @@ export default new Router({
       component: Login
     },{
       path: '/home',
-      name: 'Home',
+      name: '主页',
       component: Home
-    },{
-      path: '/hello',
-      name: 'Hello',
-      component: Hello
     }
   ]
 })
