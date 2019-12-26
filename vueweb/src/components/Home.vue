@@ -2,37 +2,35 @@
   <div>
     <el-container class="home-container">
       <el-header class="home-header">
-        <span class="home_title">vueweb</span>
-        <div style="display: flex;align-items: center;margin-right: 7px">
+        <span style="color: #fff; font-size: 22px; display: inline; margin-left: 20px;">这是个标题</span>
+        <div style="display: flex;align-items: center;margin-right: 20px">
           <el-dropdown @command="handleCommand">
-            <span class="el-dropdown-link home_userinfo" style="display: flex;align-items: center">
-              Hello,{{user.userName}}!
+            <span class="el-dropdown-link" style="color: #fff;">
+              <strong>Hello&nbsp;{{user.userName}}&nbsp;</strong>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <!-- <el-dropdown-item>个人中心</el-dropdown-item>
-              <el-dropdown-item>设置</el-dropdown-item> -->
+              <el-dropdown-item>个人中心</el-dropdown-item>
+              <el-dropdown-item>设置</el-dropdown-item>
               <el-dropdown-item command="logout" divided>注销</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
       </el-header>
       <el-container>
-        <el-aside width="200px" class="home-aside">
-          <div style="display: flex;justify-content: flex-start;width: 200px;text-align: left;">
-            <el-menu style="background: #ececec;width: 200px;" unique-opened router>
-              <template v-for="(item,index) in this.routes">
-                <el-submenu :key="index" :index="index+''">
-                  <template slot="title">
-                    <i class="el-icon-star-off" style="color: #20a0ff;width: 15px;"></i>
-                    <span slot="title">{{item.name}}</span>
-                  </template>
-                  <el-menu-item width="200px" style="padding-left: 30px;padding-right:0px;margin-left: 0px;width: 170px;text-align: left"
-                    v-for="child in item.children" :index="child.path" :key="child.path">{{child.name}}
-                  </el-menu-item>
-                </el-submenu>
-              </template>
-            </el-menu>
-          </div>
+        <el-aside style="background-color: #ECECEC;width: 201px;">
+          <el-menu style="background: #ececec;width: 200px;text-align: left;" unique-opened router>
+            <template v-for="(item,index) in this.routes">
+              <el-submenu :key="index" :index="index+''">
+                <template slot="title">
+                  <i class="el-icon-star-off" style="color: #20a0ff;width: 15px;"></i>
+                  <span slot="title">{{item.name}}</span>
+                </template>
+                <el-menu-item style="padding-left: 30px;padding-right:0px;margin-left: 0px;width: 200px;"
+                  v-for="child in item.children" :index="child.path" :key="child.path">{{child.name}}
+                </el-menu-item>
+              </el-submenu>
+            </template>
+          </el-menu>
         </el-aside>
         <el-main>
           <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -101,10 +99,6 @@
     padding: 0px;
   }
 
-  .home-aside {
-    background-color: #ECECEC;
-  }
-
   .home-main {
     background-color: #fff;
     color: #000;
@@ -112,27 +106,5 @@
     margin: 0px;
     padding: 0px;
     ;
-  }
-
-  .home_title {
-    color: #fff;
-    font-size: 22px;
-    display: inline;
-    margin-left: 20px;
-  }
-
-  .home_userinfo {
-    color: #fff;
-    cursor: pointer;
-  }
-
-  .home_userinfoContainer {
-    display: inline;
-    margin-right: 20px;
-  }
-
-  .el-submenu .el-menu-item {
-    width: 200px;
-    min-width: 200px;
   }
 </style>

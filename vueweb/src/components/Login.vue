@@ -1,6 +1,6 @@
 <template>
-  <el-form :rules="rules" class="login-container" label-position="left" :model="loginForm" label-width="0px" v-loading="loading">
-    <h3 class="login_title">系统登录</h3>
+  <el-form :rules="rules" class="login-container" :model="loginForm" v-loading="loading">
+    <h3 style=" margin: 0px auto 40px auto; text-align: center; color: #505458;">系统登录</h3>
     <el-form-item prop="username">
       <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>
@@ -66,16 +66,5 @@
     background: #fff;
     border: 1px solid #eaeaea;
     box-shadow: 0 0 25px #cac6c6;
-  }
-
-  .login_title {
-    margin: 0px auto 40px auto;
-    text-align: center;
-    color: #505458;
-  }
-
-  .login_remember {
-    margin: 0px 0px 35px 0px;
-    text-align: left;
   }
 </style>
