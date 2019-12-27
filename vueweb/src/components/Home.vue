@@ -47,20 +47,20 @@
   export default {
     methods: {
       handleCommand(command) {
-        var _this = this;
+        var that = this;
         if (command == 'logout') {
           this.$confirm('注销登录, 是否继续?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            _this.postRequest("/logout");
-            _this.$store.commit('logout');
-            _this.$router.replace({
+            that.postRequest("/logout");
+            that.$store.commit('logout');
+            that.$router.replace({
               path: '/'
             });
           }).catch(() => {
-            _this.$message({
+            that.$message({
               type: 'info',
               message: '取消'
             });

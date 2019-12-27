@@ -1,5 +1,5 @@
 <template>
-  <el-form :rules="rules" class="login-container" :model="loginForm" v-loading="loading">
+  <el-form :rules="rules" ref="loginRef" class="login-container" :model="loginForm" v-loading="loading">
     <h3 style=" margin: 0px auto 40px auto; text-align: center; color: #505458;">系统登录</h3>
     <el-form-item prop="username">
       <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="账号"></el-input>
@@ -37,19 +37,25 @@
     },
     methods: {
       submitClick: function() {
-        var _this = this;
-        _this.loading = true;
-        _this.postRequest("/login", {
-          "username": _this.loginForm.username,
-          "password": _this.loginForm.password
-        }).then(resp => {
-          _this.loading = false;
-          var data = resp.data;
-          if (data.status == 1) {
-            _this.$store.commit("login", data.data);
-            _this.$router.replace({
-              path: "/home"
+        var that = this;
+        this.$refs["loginRef"].validate((valid) => {
+          if (valid) {
+            this.loading = true;
+            this.postRequest("/login", {
+              "username": that.loginForm.username,
+              "password": that.loginForm.password
+            }).then(resp => {
+              that.loading = false;
+              var data = resp.data;
+              if (data.status == 1) {
+                that.$store.commit("login", data.data);
+                that.$router.replace({
+                  path: "/home"
+                });
+              }
             });
+          } else {
+            return false;
           }
         });
       }
