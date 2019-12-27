@@ -7,8 +7,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {
-      userId: window.localStorage.getItem("user") == null ? "" : JSON.parse(window.localStorage.getItem("user")).userName,
+      userId: window.localStorage.getItem("user") == null ? "" : JSON.parse(window.localStorage.getItem("user")).userId,
       userName: window.localStorage.getItem("user") == null ? "" : JSON.parse(window.localStorage.getItem("user")).userName,
+      realName: window.localStorage.getItem("user") == null ? "" : JSON.parse(window.localStorage.getItem("user")).realName,
       roles: window.localStorage.getItem("user") == null ? "" : JSON.parse(window.localStorage.getItem("user")).roles
     },
     routes: [],

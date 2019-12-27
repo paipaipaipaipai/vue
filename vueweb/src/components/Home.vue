@@ -6,7 +6,7 @@
         <div style="display: flex;align-items: center;margin-right: 20px">
           <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link" style="color: #fff;">
-              <strong>Hello&nbsp;{{user.userName}}&nbsp;</strong>
+              <strong>Hello&nbsp;{{user.realName}}&nbsp;</strong>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>个人中心</el-dropdown-item>
