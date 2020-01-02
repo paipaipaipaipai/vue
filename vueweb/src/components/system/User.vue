@@ -19,9 +19,9 @@
           <el-table-column align="center" header-align="center" prop="createDateStr" label="创建时间"> </el-table-column>
           <el-table-column align="center" header-align="center" fixed="right" label="操作" width="200">
             <template slot-scope="scope">
-              <el-button type="primary" size="mini" style="padding: 3px 4px;margin: 2px">查看</el-button>
-              <el-button type="primary" size="mini" style="padding: 3px 4px;margin: 2px">编辑</el-button>
-              <el-button type="danger" size="mini" style="padding: 3px 4px;margin: 2px">删除</el-button>
+              <el-button type="primary" size="mini" style="padding: 3px 4px;margin: 2px" @click="showViewDialog(scope.row)">查看</el-button>
+              <el-button type="primary" size="mini" style="padding: 3px 4px;margin: 2px" @click="showEditDialog(scope.row)">编辑</el-button>
+              <el-button type="danger" size="mini" style="padding: 3px 4px;margin: 2px" @click="deleteUser(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -33,8 +33,9 @@
       </el-main>
     </el-container>
 
-    <el-dialog width="30%" style="text-align: left;" :title="dialogTitle" :close-on-click-modal="false" :visible.sync="dialogVisible">
-      <el-form :model="user" ref="userForm" label-width="100px" size="mini">
+    <el-dialog width="30%" style="text-align: left;" :title="dialogTitle" :close-on-click-modal="false" :visible.sync="dialogVisible"
+      @close="closeDialog('userForm')">
+      <el-form :model="user" :rules="rules" ref="userForm" label-width="100px" size="mini">
         <el-form-item label="账号:" prop="userName">
           <el-input v-model="user.userName" size="mini" style="width: 200px;" placeholder="请输入账号"></el-input>
         </el-form-item>
@@ -50,19 +51,17 @@
             <el-radio label="2">禁用</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="创建时间:" prop="status">
-        <el-input v-model="user.createtime" size="mini" style="width: 200px;" placeholder="创建时间"></el-input>
+        <el-form-item label="角色:">
+          <el-tag v-for="role in user.roles" :key="role.roleId" type="success" size="mini" style="margin-right: 2px;"
+            :disable-transitions="false" >{{role.roleAlias}}
+          </el-tag>
         </el-form-item>
-
-
-
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button size="mini" @click="dialogVisible = false">取 消</el-button>
         <el-button size="mini" type="primary" @click="saveUser('userForm')">确 定</el-button>
       </span>
     </el-dialog>
-
   </div>
 </template>
 <script>
@@ -79,12 +78,38 @@
         dialogTitle: "",
         dialogVisible: false,
         user: {
-          userId: '',
-          userName: '',
-          userPhone: '',
-          realName: '',
-          status: '',
-          createtime: ''
+          userId: "",
+          userName: "",
+          realName: "",
+          userPhone: "",
+          status: "",
+          roles: []
+        },
+        rules: {
+          userName: [{
+            required: true,
+            message: "请填写账号",
+            trigger: "blur"
+          }],
+          realName: [{
+            required: true,
+            message: "请填写姓名",
+            trigger: "blur"
+          }],
+          userPhone: [{
+            required: true,
+            message: "请填写手机号",
+            trigger: "blur"
+          }, {
+            pattern: /^1\d{10}$/,
+            message: "手机号格式不正确",
+            trigger: "blur"
+          }],
+          status: [{
+            required: true,
+            message: "请选择状态",
+            trigger: "blur"
+          }]
         }
       };
     },
@@ -109,7 +134,7 @@
           "pageSize": this.pageSize,
           "keywords": this.keywords
         }).then(resp => {
-          this.loading = false;
+          that.loading = false;
           var data = resp.data;
           if (data.status == 1) {
             that.users = data.data.result;
@@ -120,6 +145,44 @@
       showAddDialog() {
         this.dialogTitle = "创建用户";
         this.dialogVisible = true;
+      },
+      showViewDialog(row) {
+        this.dialogTitle = "用户信息";
+        this.dialogVisible = true;
+      },
+      showEditDialog(row) {
+        this.dialogTitle = "修改用户";
+        this.dialogVisible = true;
+        this.loading = true;
+        var that = this;
+        this.postRequest("/system/user/getUser", {
+          "userId": row.userId
+        }).then(resp => {
+          that.loading = false;
+          var data = resp.data;
+          if (data.status == 1) {
+            that.user.userId = data.data.userId;
+            that.user.userName = data.data.userName;
+            that.user.realName = data.data.realName;
+            that.user.userPhone = data.data.userPhone;
+            that.user.status = data.data.status;
+            that.user.roles = data.data.roles;
+          }
+        });
+      },
+      closeDialog(formName) {
+        // 重置表单内容
+        this.$refs[formName].resetFields();
+      },
+      emptyData() {
+        this.user = {
+          userId: "",
+          userName: "",
+          realName: "",
+          userPhone: "",
+          status: "",
+          roles: []
+        }
       },
       saveUser(formName) {
         var that = this;
@@ -132,18 +195,37 @@
               "userPhone": this.user.userPhone,
               "status": this.user.status
             }).then(resp => {
-              this.loading = false;
+              that.loading = false;
               var data = resp.data;
               if (data.status == 1) {
                 that.dialogVisible = false;
-                that.emptyEmpData();
-                that.loadEmps();
+                that.emptyData();
+                that.loadDate();
               }
             });
           } else {
             return false;
           }
         });
+      },
+      deleteUser(row) {
+        this.$confirm("此操作将永久删除[" + row.userName + "], 是否继续？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          this.loading = true;
+          var that = this;
+          this.postRequest("/system/user/deleteUser", {
+            "userId": row.userId
+          }).then(resp => {
+            that.loading = false;
+            var data = resp.data;
+            if (data.status == 1) {
+              that.loadDate();
+            }
+          });
+        }).catch(() => {});
       },
     }
   };

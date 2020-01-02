@@ -22,7 +22,7 @@
             <template v-for="(item,index) in this.routes">
               <el-submenu :key="index" :index="index+''">
                 <template slot="title">
-                  <i class="el-icon-star-off" style="color: #20a0ff;width: 15px;"></i>
+                  <i class="el-icon-d-arrow-right" style="color: #20a0ff;width: 15px;"></i>
                   <span slot="title">{{item.name}}</span>
                 </template>
                 <el-menu-item style="padding-left: 30px;padding-right:0px;margin-left: 0px;width: 200px;"
@@ -48,21 +48,21 @@
     methods: {
       handleCommand(command) {
         var that = this;
-        if (command == 'logout') {
-          this.$confirm('注销登录, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
+        if (command == "logout") {
+          this.$confirm("注销登录, 是否继续？", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
           }).then(() => {
             that.postRequest("/logout");
-            that.$store.commit('logout');
+            that.$store.commit("logout");
             that.$router.replace({
-              path: '/'
+              path: "/"
             });
           }).catch(() => {
             that.$message({
-              type: 'info',
-              message: '取消'
+              type: "info",
+              message: "取消"
             });
           });
         }
