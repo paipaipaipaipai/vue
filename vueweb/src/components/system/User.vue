@@ -19,8 +19,8 @@
           <el-table-column align="center" header-align="center" prop="createDateStr" label="创建时间"> </el-table-column>
           <el-table-column align="center" header-align="center" fixed="right" label="操作" width="200">
             <template slot-scope="scope">
-              <el-button type="primary" size="mini" style="padding: 3px 4px;margin: 2px" @click="showViewDialog(scope.row)">查看</el-button>
               <el-button type="primary" size="mini" style="padding: 3px 4px;margin: 2px" @click="showEditDialog(scope.row)">编辑</el-button>
+              <el-button type="primary" size="mini" style="padding: 3px 4px;margin: 2px" @click="resetPassword(scope.row)">重置密码</el-button>
               <el-button type="danger" size="mini" style="padding: 3px 4px;margin: 2px" @click="deleteUser(scope.row)">删除</el-button>
             </template>
           </el-table-column>
@@ -33,28 +33,29 @@
       </el-main>
     </el-container>
 
-    <el-dialog width="30%" style="text-align: left;" :title="dialogTitle" :close-on-click-modal="false" :visible.sync="dialogVisible"
+    <el-dialog width="50%" style="text-align: left;" :title="dialogTitle" :close-on-click-modal="false" :visible.sync="dialogVisible"
       @close="closeDialog('userForm')">
       <el-form :model="user" :rules="rules" ref="userForm" label-width="100px" size="mini">
         <el-form-item label="账号:" prop="userName">
-          <el-input v-model="user.userName" size="mini" style="width: 200px;" placeholder="请输入账号"></el-input>
+          <el-input v-model="user.userName" size="mini" style="width: 250px;" placeholder="请输入账号"></el-input>
         </el-form-item>
         <el-form-item label="姓名:" prop="realName">
-          <el-input v-model="user.realName" size="mini" style="width: 200px;" placeholder="请输入姓名"></el-input>
+          <el-input v-model="user.realName" size="mini" style="width: 250px;" placeholder="请输入姓名"></el-input>
         </el-form-item>
         <el-form-item label="手机号:" prop="userPhone">
-          <el-input v-model="user.userPhone" size="mini" style="width: 200px;" placeholder="请输入手机号"></el-input>
+          <el-input v-model="user.userPhone" size="mini" style="width: 250px;" placeholder="请输入手机号"></el-input>
         </el-form-item>
         <el-form-item label="状态:" prop="status">
-          <el-radio-group v-model="user.status">
+          <el-radio-group v-model="user.status" style="width: 250px;">
             <el-radio label="1">启用</el-radio>
             <el-radio label="2">禁用</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="角色:">
-          <el-tag v-for="role in user.roles" :key="role.roleId" type="success" size="mini" style="margin-right: 2px;"
-            :disable-transitions="false" >{{role.roleAlias}}
-          </el-tag>
+          <el-select v-model="user.roles" multiple placeholder="请选择角色" style="width: 250px;">
+            <el-option v-for="role in roles" :key="role.roleId" :label="role.roleAlias" :value="role.roleId">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -71,6 +72,8 @@
         keywords: '',
         loading: false,
         users: [],
+        roles: [],
+        selectRoles: [],
         totalCount: 0,
         defaultPageNo: 1,
         pageNo: 1,
@@ -82,7 +85,7 @@
           userName: "",
           realName: "",
           userPhone: "",
-          status: "",
+          status: "2",
           roles: []
         },
         rules: {
@@ -115,6 +118,7 @@
     },
     mounted: function() {
       this.loadDate();
+      this.loadAllRoles();
     },
     methods: {
       handleSizeChange(pageSize) {
@@ -142,12 +146,22 @@
           }
         });
       },
+      loadAllRoles() {
+        var that = this;
+        this.loading = true;
+        this.postRequest("/system/user/getAllRoles", {}).then(resp => {
+          that.loading = false;
+          var data = resp.data;
+          if (data.status == 1) {
+            that.roles = data.data;
+          }
+        });
+      },
+      hidePopover() {
+        console.log(this.selectRoles);
+      },
       showAddDialog() {
         this.dialogTitle = "创建用户";
-        this.dialogVisible = true;
-      },
-      showViewDialog(row) {
-        this.dialogTitle = "用户信息";
         this.dialogVisible = true;
       },
       showEditDialog(row) {
@@ -166,13 +180,21 @@
             that.user.realName = data.data.realName;
             that.user.userPhone = data.data.userPhone;
             that.user.status = data.data.status;
-            that.user.roles = data.data.roles;
+            var roleList=data.data.roles;
+            var roles = [];
+            if (roleList.length > 0) {
+              roleList.forEach(role => {
+                roles.push(role.roleId);
+              })
+            }
+            that.user.roles = roles;
           }
         });
       },
       closeDialog(formName) {
         // 重置表单内容
         this.$refs[formName].resetFields();
+        this.emptyData();
       },
       emptyData() {
         this.user = {
@@ -190,6 +212,7 @@
           if (valid) {
             this.loading = true;
             this.postRequest("/system/user/saveUser", {
+              "userId": this.user.userId,
               "userName": this.user.userName,
               "realName": this.user.realName,
               "userPhone": this.user.userPhone,
@@ -199,12 +222,33 @@
               var data = resp.data;
               if (data.status == 1) {
                 that.dialogVisible = false;
-                that.emptyData();
                 that.loadDate();
+                that.emptyData();
+                that.$message({
+                  type: "success",
+                  message: data.message
+                });
               }
             });
           } else {
             return false;
+          }
+        });
+      },
+      resetPassword(row) {
+        this.loading = true;
+        var that = this;
+        this.postRequest("/system/user/resetPassword", {
+          "userId": row.userId
+        }).then(resp => {
+          that.loading = false;
+          var data = resp.data;
+          if (data.status == 1) {
+            that.loadDate();
+            that.$message({
+              type: "success",
+              message: data.message
+            });
           }
         });
       },
@@ -223,6 +267,10 @@
             var data = resp.data;
             if (data.status == 1) {
               that.loadDate();
+              that.$message({
+                type: "success",
+                message: data.message
+              });
             }
           });
         }).catch(() => {});
