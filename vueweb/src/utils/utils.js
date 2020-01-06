@@ -7,7 +7,7 @@ export const initMenu = (router, store) => {
   postRequest("/config/sysmenu", {}).then(resp => {
     var data = resp.data;
     if (data.status == 1) {
-      var fmtRoutes = formatRoutes3(data.data);
+      var fmtRoutes = formatRoutes(data.data);
       router.addRoutes(fmtRoutes);
       store.commit('initMenu', fmtRoutes);
     }

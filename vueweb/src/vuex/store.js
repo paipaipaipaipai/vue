@@ -21,6 +21,7 @@ export default new Vuex.Store({
     },
     logout(state) {
       window.localStorage.removeItem("user");
+      state.routes = [];
     },
     initMenu(state, menus){
       state.routes = menus;

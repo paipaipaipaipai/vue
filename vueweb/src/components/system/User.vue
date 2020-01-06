@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-container>
+      <!-- 搜索 -->
       <el-header style="padding: 0px;display:flex;justify-content:space-between;align-items: center">
         <div style="display: inline;">
           <el-input placeholder="请输入姓名或手机号" clearable style="width: 300px;margin: 0px;padding: 0px;" size="mini"
@@ -10,6 +11,8 @@
           <el-button type="success" size="mini" style="margin-left: 5px" icon="el-icon-plus" @click="showAddDialog">创建用户</el-button>
         </div>
       </el-header>
+
+      <!-- 表格 -->
       <el-main style="padding-left: 0px;padding-top: 0px">
         <el-table :data="users" v-loading="loading" border stripe size="mini" style="width: 100%;text-align: center;">
           <el-table-column align="center" header-align="center" prop="userName" label="账号"> </el-table-column>
@@ -33,11 +36,12 @@
       </el-main>
     </el-container>
 
-    <el-dialog width="50%" style="text-align: left;" :title="dialogTitle" :close-on-click-modal="false" :visible.sync="dialogVisible"
+    <!-- 弹框 -->
+    <el-dialog width="50%" style="text-align: left;" title="用户管理" :close-on-click-modal="false" :visible.sync="dialogVisible"
       @close="closeDialog('userForm')">
       <el-form :model="user" :rules="rules" ref="userForm" label-width="100px" size="mini">
         <el-form-item label="账号:" prop="userName">
-          <el-input v-model="user.userName" size="mini" style="width: 250px;" placeholder="请输入账号"></el-input>
+          <el-input v-model="user.userName" size="mini" style="width: 250px;" placeholder="请输入账号" :disabled="userNameDisabled"></el-input>
         </el-form-item>
         <el-form-item label="姓名:" prop="realName">
           <el-input v-model="user.realName" size="mini" style="width: 250px;" placeholder="请输入姓名"></el-input>
@@ -52,8 +56,8 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="角色:">
-          <el-select v-model="user.roles" multiple placeholder="请选择角色" style="width: 250px;">
-            <el-option v-for="role in roles" :key="role.roleId" :label="role.roleAlias" :value="role.roleId">
+          <el-select v-model="user.roles" value-key="roleId" multiple placeholder="请选择角色" style="width: 250px;">
+            <el-option v-for="role in roles" :key="role.roleId" :label="role.roleAlias" :value="{roleId:role.roleId,roleAlias:role.roleAlias}">
             </el-option>
           </el-select>
         </el-form-item>
@@ -63,6 +67,7 @@
         <el-button size="mini" type="primary" @click="saveUser('userForm')">确 定</el-button>
       </span>
     </el-dialog>
+
   </div>
 </template>
 <script>
@@ -78,8 +83,8 @@
         defaultPageNo: 1,
         pageNo: 1,
         pageSize: 5,
-        dialogTitle: "",
         dialogVisible: false,
+        userNameDisabled: false,
         user: {
           userId: "",
           userName: "",
@@ -92,26 +97,26 @@
           userName: [{
             required: true,
             message: "请填写账号",
-            trigger: "blur"
+            trigger: "change"
           }],
           realName: [{
             required: true,
             message: "请填写姓名",
-            trigger: "blur"
+            trigger: "change"
           }],
           userPhone: [{
             required: true,
             message: "请填写手机号",
-            trigger: "blur"
+            trigger: "change"
           }, {
             pattern: /^1\d{10}$/,
             message: "手机号格式不正确",
-            trigger: "blur"
+            trigger: "change"
           }],
           status: [{
             required: true,
             message: "请选择状态",
-            trigger: "blur"
+            trigger: "change"
           }]
         }
       };
@@ -157,16 +162,12 @@
           }
         });
       },
-      hidePopover() {
-        console.log(this.selectRoles);
-      },
       showAddDialog() {
-        this.dialogTitle = "创建用户";
         this.dialogVisible = true;
       },
       showEditDialog(row) {
-        this.dialogTitle = "修改用户";
         this.dialogVisible = true;
+        this.userNameDisabled = true;
         this.loading = true;
         var that = this;
         this.postRequest("/system/user/getUser", {
@@ -180,14 +181,7 @@
             that.user.realName = data.data.realName;
             that.user.userPhone = data.data.userPhone;
             that.user.status = data.data.status;
-            var roleList=data.data.roles;
-            var roles = [];
-            if (roleList.length > 0) {
-              roleList.forEach(role => {
-                roles.push(role.roleId);
-              })
-            }
-            that.user.roles = roles;
+            that.user.roles = data.data.roles;
           }
         });
       },
@@ -197,6 +191,7 @@
         this.emptyData();
       },
       emptyData() {
+        this.userNameDisabled = false;
         this.user = {
           userId: "",
           userName: "",
@@ -216,7 +211,8 @@
               "userName": this.user.userName,
               "realName": this.user.realName,
               "userPhone": this.user.userPhone,
-              "status": this.user.status
+              "status": this.user.status,
+              "roles": this.user.roles
             }).then(resp => {
               that.loading = false;
               var data = resp.data;
