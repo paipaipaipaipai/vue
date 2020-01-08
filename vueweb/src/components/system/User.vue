@@ -4,7 +4,7 @@
       <!-- 搜索 -->
       <el-header style="padding: 0px;display:flex;justify-content:space-between;align-items: center">
         <div style="display: inline;">
-          <el-input placeholder="请输入姓名或手机号" clearable style="width: 300px;margin: 0px;padding: 0px;" size="mini"
+          <el-input placeholder="请输入姓名或手机号" clearable style="width: 250px;margin: 0px;padding: 0px;" size="mini"
             prefix-icon="el-icon-search" v-model="keywords">
           </el-input>
           <el-button type="primary" size="mini" style="margin-left: 5px" icon="el-icon-search" @click="loadDate">搜索</el-button>
@@ -29,7 +29,7 @@
           </el-table-column>
         </el-table>
         <div style="margin: 10px;">
-          <el-pagination background :page-sizes="[5, 10, 20]" :page-size="5" :current-page="pageNo" @size-change="handleSizeChange"
+          <el-pagination background :page-sizes="[10, 20]" :page-size="10" :current-page="pageNo" @size-change="handleSizeChange"
             @current-change="handlePageChange" layout="total, sizes, prev, pager, next" :total="totalCount">
           </el-pagination>
         </div>
@@ -98,10 +98,18 @@
             required: true,
             message: "请填写账号",
             trigger: "change"
+          }, {
+            pattern: /^[A-Za-z0-9]+$/,
+            message: "账号格式为字母或数字",
+            trigger: "change"
           }],
           realName: [{
             required: true,
             message: "请填写姓名",
+            trigger: "change"
+          }, {
+            pattern: /^[A-Za-z\u4e00-\u9fa5]+$/,
+            message: "姓名格式为中文或字母",
             trigger: "change"
           }],
           userPhone: [{
@@ -154,7 +162,7 @@
       loadAllRoles() {
         var that = this;
         this.loading = true;
-        this.postRequest("/system/user/getAllRoles", {}).then(resp => {
+        this.postRequest("/config/roles", {}).then(resp => {
           that.loading = false;
           var data = resp.data;
           if (data.status == 1) {

@@ -1,4 +1,16 @@
 import {postRequest} from './api'
+import {Message} from 'element-ui'
+
+export const isNotNullORBlank = (...args)=> {
+  for (var i = 0; i < args.length; i++) {
+    var arg = args[i];
+    if (arg == null || arg == undefined || arg.replace(/(^\s*)|(\s*$)/g, '').length ==0) {
+      Message.warning({message: '数据不能为空!'})
+      return false;
+    }
+  }
+  return true;
+}
 
 export const initMenu = (router, store) => {
   if (store.state.routes.length > 0) {
@@ -12,57 +24,6 @@ export const initMenu = (router, store) => {
       store.commit('initMenu', fmtRoutes);
     }
   });
-}
-
-export const formatRoutes3 = (routes) => {
-  let fmRoutes = [];
-  routes.forEach(router => {
-    var children = [];
-    if (router.childMenus && router.childMenus.length > 0) {
-      router.childMenus.forEach(child => {
-        children.push({
-          "name": child.menuName,
-          "path": child.menuRouter,
-          "iconCls": child.menuIcon,
-          "component": resolve => require(['../components/' + child.menuComponent + '.vue'], resolve),
-        });
-      })
-    }
-    fmRoutes.push({
-      "name": router.menuName,
-      "path": router.menuRouter,
-      "iconCls": router.menuIcon,
-      "component": resolve => require(['../components/' + router.menuComponent + '.vue'], resolve),
-      "children": children
-    });
-  })
-  return fmRoutes;
-}
-
-export const formatRoutes2 = (routes) => {
-  let fmRoutes = [];
-  routes.forEach(router => {
-    var menu = {};
-    var cmenus = [];
-    menu.name = router.menuName;
-    menu.path = router.menuRouter;
-    menu.iconCls = router.menuIcon;
-    menu.component = resolve => require(['../components/' + router.menuComponent + '.vue'], resolve);
-    if (router.childMenus && router.childMenus.length > 0) {
-      router.childMenus.forEach(child => {
-        var cmenu = {};
-        cmenu.name = child.menuName;
-        cmenu.path = child.menuRouter;
-        cmenu.iconCls = child.menuIcon;
-        cmenu.component = resolve => require(['../components/' + child.menuComponent + '.vue'], resolve);
-        cmenus.push(cmenu);
-      })
-    }
-    menu.children = cmenus;
-    console.log(menu);
-    fmRoutes.push(menu);
-  })
-  return fmRoutes;
 }
 
 export const formatRoutes = (routes) => {
@@ -91,3 +52,54 @@ export const formatRoutes = (routes) => {
   })
   return fmRoutes;
 }
+
+// export const formatRoutes2 = (routes) => {
+//   let fmRoutes = [];
+//   routes.forEach(router => {
+//     var menu = {};
+//     var cmenus = [];
+//     menu.name = router.menuName;
+//     menu.path = router.menuRouter;
+//     menu.iconCls = router.menuIcon;
+//     menu.component = resolve => require(['../components/' + router.menuComponent + '.vue'], resolve);
+//     if (router.childMenus && router.childMenus.length > 0) {
+//       router.childMenus.forEach(child => {
+//         var cmenu = {};
+//         cmenu.name = child.menuName;
+//         cmenu.path = child.menuRouter;
+//         cmenu.iconCls = child.menuIcon;
+//         cmenu.component = resolve => require(['../components/' + child.menuComponent + '.vue'], resolve);
+//         cmenus.push(cmenu);
+//       })
+//     }
+//     menu.children = cmenus;
+//     console.log(menu);
+//     fmRoutes.push(menu);
+//   })
+//   return fmRoutes;
+// }
+
+// export const formatRoutes3 = (routes) => {
+//   let fmRoutes = [];
+//   routes.forEach(router => {
+//     var children = [];
+//     if (router.childMenus && router.childMenus.length > 0) {
+//       router.childMenus.forEach(child => {
+//         children.push({
+//           "name": child.menuName,
+//           "path": child.menuRouter,
+//           "iconCls": child.menuIcon,
+//           "component": resolve => require(['../components/' + child.menuComponent + '.vue'], resolve),
+//         });
+//       })
+//     }
+//     fmRoutes.push({
+//       "name": router.menuName,
+//       "path": router.menuRouter,
+//       "iconCls": router.menuIcon,
+//       "component": resolve => require(['../components/' + router.menuComponent + '.vue'], resolve),
+//       "children": children
+//     });
+//   })
+//   return fmRoutes;
+// }
