@@ -26,7 +26,7 @@
                   <span slot="title">{{item.name}}</span>
                 </template>
                 <el-menu-item style="padding-left: 30px;padding-right:0px;margin-left: 0px;width: 200px;"
-                  v-for="child in item.children" :index="child.path" :key="child.path">{{child.name}}
+                  v-for="child in item.children" :index="child.path" :key="child.menuId">{{child.name}}
                 </el-menu-item>
               </el-submenu>
             </template>
