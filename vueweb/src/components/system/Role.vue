@@ -14,7 +14,7 @@
       </el-header>
       <el-main style="padding-left: 0px;padding-top: 0px">
         <el-collapse v-model="activeId" accordion @change="collapseChange">
-          <el-collapse-item v-for="(role,index) in roles" :title="role.roleAlias" :name="index">
+          <el-collapse-item v-for="(role,index) in roles" :title="role.roleAlias" :name="index" :key="role.roleId">
             <el-card class="box-card">
               <div style="display: inline;">
                 <el-input placeholder="请输入角色英文名称..." size="mini" style="width: 250px" :disabled="true" v-model="editForm.roleName">
