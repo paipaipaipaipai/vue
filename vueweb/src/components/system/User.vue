@@ -39,7 +39,7 @@
     <!-- 弹框 -->
     <el-dialog width="50%" style="text-align: left;" title="用户管理" :close-on-click-modal="false" :visible.sync="dialogVisible"
       @close="closeDialog('userForm')">
-      <el-form :model="user" :rules="rules" ref="userForm" label-width="100px" size="mini">
+      <el-form :model="user" :rules="rules" ref="userForm" label-width="100px" size="mini" v-loading="dialogLoading">
         <el-form-item label="账号:" prop="userName">
           <el-input v-model="user.userName" size="mini" style="width: 250px;" placeholder="请输入账号" :disabled="userNameDisabled"></el-input>
         </el-form-item>
@@ -64,7 +64,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button size="mini" @click="dialogVisible = false">取 消</el-button>
-        <el-button size="mini" type="primary" @click="saveUser('userForm')">确 定</el-button>
+        <el-button size="mini" type="primary" @click="saveUser('userForm')" :disabled="btnDisabled">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -76,6 +76,8 @@
       return {
         keywords: '',
         loading: false,
+        dialogLoading: false,
+        btnDisabled: false,
         users: [],
         roles: [],
         selectRoles: [],
@@ -176,12 +178,12 @@
       showEditDialog(row) {
         this.dialogVisible = true;
         this.userNameDisabled = true;
-        this.loading = true;
+        this.dialogLoading = true;
         var that = this;
         this.postRequest("/system/user/getUser", {
           "userId": row.userId
         }).then(resp => {
-          that.loading = false;
+          that.dialogLoading = false;
           var data = resp.data;
           if (data.status == 1) {
             that.user.userId = data.data.userId;
@@ -213,7 +215,7 @@
         var that = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.loading = true;
+            this.btnDisabled = true;
             this.postRequest("/system/user/saveUser", {
               "userId": this.user.userId,
               "userName": this.user.userName,
@@ -222,7 +224,7 @@
               "status": this.user.status,
               "roles": this.user.roles
             }).then(resp => {
-              that.loading = false;
+              that.btnDisabled = false;
               var data = resp.data;
               if (data.status == 1) {
                 that.dialogVisible = false;
