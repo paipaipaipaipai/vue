@@ -9,7 +9,8 @@
           </el-input>
           <el-input placeholder="请输入角色中文名称..." size="mini" style="width: 250px" v-model="roleAlias">
           </el-input>
-          <el-button type="success" size="mini" style="margin-left: 5px" icon="el-icon-plus" @click="createRole">创建角色</el-button>
+          <el-button type="success" size="mini" style="margin-left: 5px" icon="el-icon-plus" @click="createRole"
+            :disabled="createDisabled">创建角色</el-button>
         </div>
       </el-header>
       <el-main style="padding-left: 0px;padding-top: 0px">
@@ -23,8 +24,8 @@
                 </el-input>
               </div>
               <div style="display: flex;justify-content: flex-end;margin-right: 10px">
-                <el-button type="primary" size="mini" style="float: right;" @click="saveRole">保存修改</el-button>
-                <el-button type="danger" size="mini" style="float: right;" @click="deleteRole">删除</el-button>
+                <el-button type="primary" size="mini" style="float: right;" @click="saveRole" :disabled="saveDisabled">保存修改</el-button>
+                <el-button type="danger" size="mini" style="float: right;" @click="deleteRole" :disabled="saveDisabled">删除</el-button>
               </div>
             </el-card>
           </el-collapse-item>
@@ -43,6 +44,8 @@
     data() {
       return {
         loading: false,
+        createDisabled: false,
+        saveDisabled: false,
         roles: [],
         activeId: "",
         roleName: "",
@@ -68,9 +71,7 @@
     methods: {
       loadAllRoles() {
         var that = this;
-        this.loading = true;
         this.postRequest("/config/roles", {}).then(resp => {
-          that.loading = false;
           var data = resp.data;
           if (data.status == 1) {
             that.roles = data.data;
@@ -102,12 +103,12 @@
         var valid = isNotNullORBlank(this.roleName, this.roleAlias);
         if (valid) {
           var that = this;
-          this.loading = true;
+          this.createDisabled = true;
           this.postRequest("/system/role/createRole", {
             "roleName": this.roleName,
             "roleAlias": this.roleAlias
           }).then(resp => {
-            that.loading = false;
+            that.createDisabled = false;
             var data = resp.data;
             if (data.status == 1) {
               that.loadAllRoles();
@@ -126,12 +127,12 @@
         var valid = isNotNullORBlank(this.editForm.roleId, this.editForm.roleAlias);
         if (valid) {
           var that = this;
-          this.loading = true;
+          this.saveDisabled = true;
           this.postRequest("/system/role/saveRole", {
             "roleId": this.editForm.roleId,
             "roleAlias": this.editForm.roleAlias
           }).then(resp => {
-            that.loading = false;
+            that.saveDisabled = false;
             var data = resp.data;
             if (data.status == 1) {
               that.loadAllRoles();
@@ -150,11 +151,11 @@
         var valid = isNotNullORBlank(this.editForm.roleId);
         if (valid) {
           var that = this;
-          this.loading = true;
+          this.saveDisabled = true;
           this.postRequest("/system/role/deleteRole", {
             "roleId": this.editForm.roleId
           }).then(resp => {
-            that.loading = false;
+            that.saveDisabled = false;
             var data = resp.data;
             if (data.status == 1) {
               that.loadAllRoles();
