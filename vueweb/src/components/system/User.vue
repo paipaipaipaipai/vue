@@ -56,7 +56,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="角色:">
-          <el-select v-model="user.roles" value-key="roleId" multiple placeholder="请选择角色" style="width: 250px;">
+          <el-select v-model="user.roles" size="mini" value-key="roleId" multiple placeholder="请选择角色" style="width: 250px;">
             <el-option v-for="role in roles" :key="role.roleId" :label="role.roleAlias" :value="{roleId:role.roleId,roleAlias:role.roleAlias}">
             </el-option>
           </el-select>
