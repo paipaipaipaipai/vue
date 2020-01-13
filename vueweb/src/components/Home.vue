@@ -18,24 +18,29 @@
       </el-header>
       <el-container>
         <el-aside style="background-color: #ECECEC;width: 201px;">
-          <el-menu style="background: #ececec;width: 200px;text-align: left;" unique-opened router>
+          <el-menu style="background: #ececec;width: 200px;text-align: left;" :default-active="$route.path"
+            unique-opened router>
             <template v-for="(item,index) in this.routes">
               <el-submenu :key="index" :index="index+''">
                 <template slot="title">
                   <i class="el-icon-d-arrow-right" style="color: #20a0ff;width: 15px;"></i>
                   <span slot="title">{{item.name}}</span>
                 </template>
-                <el-menu-item style="padding-left: 30px;padding-right:0px;margin-left: 0px;width: 200px;"
-                  v-for="child in item.children" :index="child.path" :key="child.menuId">{{child.name}}
+                <el-menu-item style="padding-left: 30px;padding-right:0px;margin-left: 0px;width: 200px;" v-for="child in item.children"
+                  :index="child.path" :key="child.menuId">{{child.name}}
                 </el-menu-item>
               </el-submenu>
             </template>
           </el-menu>
         </el-aside>
         <el-main>
+          <span style="color: #20a0ff;float: left; margin-right: 5px;">
+            <i class="el-icon-location"></i>
+          </span>
           <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item v-text="this.$router.currentRoute.name"></el-breadcrumb-item>
+            <el-breadcrumb-item v-for='(item,index) in breadcrumbItem' :key='index' v-if='item.name'>
+              {{item.name}}
+            </el-breadcrumb-item>
           </el-breadcrumb>
           <router-view></router-view>
         </el-main>
@@ -45,7 +50,19 @@
 </template>
 <script>
   export default {
+    data() {
+      return {
+        breadcrumbItem: []
+      }
+    },
+    mounted: function() {
+      this.getBreadcrumb();
+    },
     methods: {
+      getBreadcrumb() {
+        var matched = this.$route.matched.filter(item => item.name);
+        this.breadcrumbItem = matched;
+      },
       handleCommand(command) {
         var that = this;
         if (command == "logout") {
@@ -74,6 +91,11 @@
       },
       routes() {
         return this.$store.state.routes
+      }
+    },
+    watch: {
+      $route: function() {
+        this.getBreadcrumb();
       }
     }
   }

@@ -98,9 +98,17 @@
           that.btnDisabled = false;
           var data = resp.data;
           if (data.status == 1) {
+            that.emptyData();
+            that.$message({
+              type: "success",
+              message: data.message
+            });
           }
         });
-
+      },
+      emptyData() {
+        this.roleId = "";
+        this.checkedKeys = [];
       }
     }
   };
