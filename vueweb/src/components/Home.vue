@@ -17,8 +17,8 @@
         </div>
       </el-header>
       <el-container>
-        <el-aside style="background-color: #ECECEC;width: 201px;">
-          <el-menu style="background: #ececec;width: 200px;text-align: left;" :default-active="$route.path"
+        <el-aside style="background-color: #ECECEC;width: 181px;">
+          <el-menu style="background: #ececec;width: 180px;text-align: left;" :default-active="$route.path"
             unique-opened router>
             <template v-for="(item,index) in this.routes">
               <el-submenu :key="index" :index="index+''">
@@ -26,7 +26,7 @@
                   <i class="el-icon-d-arrow-right" style="color: #20a0ff;width: 15px;"></i>
                   <span slot="title">{{item.name}}</span>
                 </template>
-                <el-menu-item style="padding-left: 30px;padding-right:0px;margin-left: 0px;width: 200px;" v-for="child in item.children"
+                <el-menu-item style="padding-left: 50px;padding-right:0px;margin-left: 0px;width: 180px;" v-for="child in item.children"
                   :index="child.path" :key="child.menuId">{{child.name}}
                 </el-menu-item>
               </el-submenu>
