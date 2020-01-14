@@ -15,6 +15,7 @@
       <!-- 表格 -->
       <el-main style="padding-left: 0px;padding-top: 0px">
         <el-table :data="users" v-loading="loading" border stripe size="mini" style="width: 100%;text-align: center;">
+          <el-table-column align="center" header-align="center" type="index" label="序号"></el-table-column>
           <el-table-column align="center" header-align="center" prop="userName" label="账号"> </el-table-column>
           <el-table-column align="center" header-align="center" prop="realName" label="姓名"> </el-table-column>
           <el-table-column align="center" header-align="center" prop="userPhone" label="手机号码"> </el-table-column>
@@ -39,24 +40,24 @@
     <!-- 弹框 -->
     <el-dialog width="50%" style="text-align: left;" title="用户管理" :close-on-click-modal="false" :visible.sync="dialogVisible"
       @close="closeDialog('userForm')">
-      <el-form :model="user" :rules="rules" ref="userForm" label-width="100px" size="mini" v-loading="dialogLoading">
+      <el-form :model="user" :rules="rules" ref="userForm" label-width="100px" size="mini" v-loading="dialogLoading" style="margin:10px;">
         <el-form-item label="账号:" prop="userName">
-          <el-input v-model="user.userName" size="mini" style="width: 250px;" placeholder="请输入账号" :disabled="userNameDisabled"></el-input>
+          <el-input v-model="user.userName" size="mini" style="width: 100%;" placeholder="请输入账号" :disabled="userNameDisabled"></el-input>
         </el-form-item>
         <el-form-item label="姓名:" prop="realName">
-          <el-input v-model="user.realName" size="mini" style="width: 250px;" placeholder="请输入姓名"></el-input>
+          <el-input v-model="user.realName" size="mini" style="width: 100%;" placeholder="请输入姓名"></el-input>
         </el-form-item>
         <el-form-item label="手机号:" prop="userPhone">
-          <el-input v-model="user.userPhone" size="mini" style="width: 250px;" placeholder="请输入手机号"></el-input>
+          <el-input v-model="user.userPhone" size="mini" style="width: 100%;" placeholder="请输入手机号"></el-input>
         </el-form-item>
         <el-form-item label="状态:" prop="status">
-          <el-radio-group v-model="user.status" style="width: 250px;">
+          <el-radio-group v-model="user.status" style="width: 100%;">
             <el-radio label="1">启用</el-radio>
             <el-radio label="2">禁用</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="角色:">
-          <el-select v-model="user.roles" size="mini" value-key="roleId" multiple placeholder="请选择角色" style="width: 250px;">
+          <el-select v-model="user.roles" size="mini" value-key="roleId" multiple placeholder="请选择角色" style="width: 100%;">
             <el-option v-for="role in roles" :key="role.roleId" :label="role.roleAlias" :value="{roleId:role.roleId,roleAlias:role.roleAlias}">
             </el-option>
           </el-select>

@@ -34,9 +34,6 @@
           </el-menu>
         </el-aside>
         <el-main>
-          <span style="color: #20a0ff;float: left; margin-right: 5px;">
-            <i class="el-icon-location"></i>
-          </span>
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item v-for='(item,index) in breadcrumbItem' :key='index' v-if='item.name'>
               {{item.name}}

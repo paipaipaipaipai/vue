@@ -2,12 +2,12 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import router from './router/router'
 // 切换到项目根目录,安装element-ui: cnpm i element-ui -S
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // 切换到项目根目录,安装vuex: cnpm i vuex -S
-import store from './vuex/store' // 引入store
+import store from './store/store' // 引入store
 
 import {Message} from 'element-ui'
 import {postRequest} from './utils/api'

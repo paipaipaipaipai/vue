@@ -1,7 +1,7 @@
 // 切换到项目根目录,安装vuex: cnpm i axios -S
 import axios from "axios"
 import {Message} from "element-ui"
-import router from '../router'
+import router from '../router/router'
 
 // 解决前后分离跨域Session一致性问题
 axios.defaults.withCredentials = true;
@@ -24,7 +24,6 @@ axios.interceptors.response.use(data => {
     router.replace({
       path: "/"
     });
-    return;
   }
   return data;
 }, err => {
