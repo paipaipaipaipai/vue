@@ -74,7 +74,7 @@
             that.postRequest("/logout");
             that.$store.commit("logout");
             that.$router.replace({
-              path: "/"
+              path: "/login"
             });
           }).catch(() => {
             that.$message({

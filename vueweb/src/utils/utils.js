@@ -1,11 +1,13 @@
 import {postRequest} from './api'
 import {Message} from 'element-ui'
 
-export const isNotNullORBlank = (...args)=> {
+export const isNotNullORBlank = (...args) => {
   for (var i = 0; i < args.length; i++) {
     var arg = args[i];
-    if (arg == null || arg == undefined || arg.replace(/(^\s*)|(\s*$)/g, '').length ==0) {
-      Message.warning({message: '数据不能为空!'})
+    if (arg == null || arg == undefined || arg.replace(/(^\s*)|(\s*$)/g, '').length == 0) {
+      Message.warning({
+        message: '数据不能为空!'
+      })
       return false;
     }
   }

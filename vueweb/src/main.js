@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
   var userName = store.state.user.userName;
   if (userName == "") {
     next({
-      path: '/'
+      path: '/login'
     })
   } else {
     initMenu(router, store);

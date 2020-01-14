@@ -8,12 +8,13 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'Login',
       component: Login
     },{
-      path: '/home',
+      path: '/',
       name: '主页',
+      hidden: true,
       component: Home
     }
   ]
