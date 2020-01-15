@@ -1,5 +1,6 @@
-import {postRequest} from './api'
+import {postRequest} from './axios'
 import {Message} from 'element-ui'
+import API from './api'
 
 export const isNotNullORBlank = (...args) => {
   for (var i = 0; i < args.length; i++) {
@@ -18,7 +19,7 @@ export const initMenu = (router, store) => {
   if (store.state.routes.length > 0) {
     return;
   }
-  postRequest("/config/sysmenu", {}).then(resp => {
+  postRequest(API.Sysmenu, {}).then(resp => {
     var data = resp.data;
     if (data.status == 1) {
       var fmtRoutes = formatRoutes(data.data);

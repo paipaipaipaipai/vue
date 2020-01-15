@@ -71,7 +71,7 @@
     methods: {
       loadAllRoles() {
         var that = this;
-        this.postRequest("/config/roles", {}).then(resp => {
+        this.postRequest(this.API.Roles, {}).then(resp => {
           var data = resp.data;
           if (data.status == 1) {
             that.roles = data.data;
@@ -104,7 +104,7 @@
         if (valid) {
           var that = this;
           this.createDisabled = true;
-          this.postRequest("/system/role/createRole", {
+          this.postRequest(this.API.CreateRole, {
             "roleName": this.roleName,
             "roleAlias": this.roleAlias
           }).then(resp => {
@@ -128,7 +128,7 @@
         if (valid) {
           var that = this;
           this.saveDisabled = true;
-          this.postRequest("/system/role/saveRole", {
+          this.postRequest(this.API.SaveRole, {
             "roleId": this.editForm.roleId,
             "roleAlias": this.editForm.roleAlias
           }).then(resp => {
@@ -152,7 +152,7 @@
         if (valid) {
           var that = this;
           this.saveDisabled = true;
-          this.postRequest("/system/role/deleteRole", {
+          this.postRequest(this.API.DeleteRole, {
             "roleId": this.editForm.roleId
           }).then(resp => {
             that.saveDisabled = false;

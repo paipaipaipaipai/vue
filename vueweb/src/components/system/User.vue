@@ -149,7 +149,7 @@
       loadDate() {
         var that = this;
         this.loading = true;
-        this.postRequest("/system/user/getUsers", {
+        this.postRequest(this.API.AllUsers, {
           "pageNo": this.pageNo,
           "pageSize": this.pageSize,
           "keywords": this.keywords
@@ -165,7 +165,7 @@
       loadAllRoles() {
         var that = this;
         this.loading = true;
-        this.postRequest("/config/roles", {}).then(resp => {
+        this.postRequest(this.API.Roles, {}).then(resp => {
           that.loading = false;
           var data = resp.data;
           if (data.status == 1) {
@@ -181,7 +181,7 @@
         this.userNameDisabled = true;
         this.dialogLoading = true;
         var that = this;
-        this.postRequest("/system/user/getUser", {
+        this.postRequest(this.API.GetUser, {
           "userId": row.userId
         }).then(resp => {
           that.dialogLoading = false;
@@ -217,7 +217,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.btnDisabled = true;
-            this.postRequest("/system/user/saveUser", {
+            this.postRequest(this.API.SaveUser, {
               "userId": this.user.userId,
               "userName": this.user.userName,
               "realName": this.user.realName,
@@ -245,7 +245,7 @@
       resetPassword(row) {
         this.loading = true;
         var that = this;
-        this.postRequest("/system/user/resetPassword", {
+        this.postRequest(this.API.ResetPassword, {
           "userId": row.userId
         }).then(resp => {
           that.loading = false;
@@ -267,7 +267,7 @@
         }).then(() => {
           this.loading = true;
           var that = this;
-          this.postRequest("/system/user/deleteUser", {
+          this.postRequest(this.API.DeleteUser, {
             "userId": row.userId
           }).then(resp => {
             that.loading = false;

@@ -43,7 +43,7 @@
     methods: {
       loadAllRoles() {
         var that = this;
-        this.postRequest("/system/authority/roles", {}).then(resp => {
+        this.postRequest(this.API.Roles, {}).then(resp => {
           var data = resp.data;
           if (data.status == 1) {
             that.roles = data.data;
@@ -53,7 +53,7 @@
       loadMenuTree() {
         this.loading = true;
         var that = this;
-        this.postRequest("/system/authority/menuTree", {}).then(resp => {
+        this.postRequest(this.API.MenuTree, {}).then(resp => {
           that.loading = false;
           var data = resp.data;
           if (data.status == 1) {
@@ -67,7 +67,7 @@
           this.checkedKeys = [];
         } else {
           var that = this;
-          this.postRequest("/system/authority/roleMenus", {
+          this.postRequest(this.API.RoleMenus, {
             "roleId": roleId
           }).then(resp => {
             var data = resp.data;
@@ -90,7 +90,7 @@
         this.btnDisabled = true;
         var that = this;
         var checkedKeys = this.$refs["tree"].getCheckedKeys(true);
-        this.postRequest("/system/authority/saveAuthority", {
+        this.postRequest(this.API.SaveAuthority, {
           "roleId": roleId,
           "checkedKeys": checkedKeys
         }).then(resp => {

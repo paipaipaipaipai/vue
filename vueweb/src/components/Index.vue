@@ -5,7 +5,7 @@
         <span style="color: #fff; font-size: 22px; display: inline; margin-left: 20px;">这是个标题</span>
         <div style="display: flex;align-items: center;margin-right: 20px">
           <el-dropdown @command="handleCommand">
-            <span class="el-dropdown-link" style="color: #fff;">
+            <span class="el-dropdown-link" style="color: #fff; cursor: pointer;">
               <strong>Hello&nbsp;{{user.realName}}&nbsp;</strong>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -68,7 +68,7 @@
             cancelButtonText: "取消",
             type: "warning"
           }).then(() => {
-            that.postRequest("/logout");
+            that.postRequest(this.API.Logout);
             that.$store.commit("logout");
             that.$router.replace({
               path: "/login"

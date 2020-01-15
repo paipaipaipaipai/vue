@@ -41,7 +41,7 @@
         this.$refs["loginRef"].validate((valid) => {
           if (valid) {
             this.loading = true;
-            this.postRequest("/login", {
+            this.postRequest(this.API.Login, {
               "username": that.loginForm.username,
               "password": that.loginForm.password
             }).then(resp => {
