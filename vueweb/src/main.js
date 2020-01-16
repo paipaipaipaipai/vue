@@ -25,13 +25,14 @@ Vue.prototype.API = API;
 
 router.beforeEach((to, from, next) => {
   if (to.name == 'Login') {
+	  store.commit("clear");
     next();
     return;
   }
   var userName = store.state.user.userName;
-  if (userName == "") {
+  if (userName === "" || userName == undefined) {
     next({
-      path: '/login'
+      path: '/'
     })
   } else {
     initMenu(router, store);

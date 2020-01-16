@@ -69,7 +69,7 @@
             type: "warning"
           }).then(() => {
             that.postRequest(this.API.Logout);
-            that.$store.commit("logout");
+            that.$store.commit("clear");
             that.$router.replace({
               path: "/"
             });

@@ -6,7 +6,6 @@ const path = require('path')
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
@@ -20,7 +19,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */
@@ -37,13 +36,18 @@ module.exports = {
   },
 
   build: {
+    // 打包配置文件
+    prodEnv: require('./prod.env'),
+    testEnv: require('./test.env'),
+
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    // 打包至springboot,如有项目名需指定
+    assetsPublicPath: '/security-service/',
 
     /**
      * Source Maps

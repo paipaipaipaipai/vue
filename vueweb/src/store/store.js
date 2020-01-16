@@ -19,11 +19,12 @@ export default new Vuex.Store({
       state.user = user;
       window.localStorage.setItem("user", JSON.stringify(user));
     },
-    logout(state) {
+    clear(state) {
       window.localStorage.removeItem("user");
+      state.user = {};
       state.routes = [];
     },
-    initMenu(state, menus){
+    initMenu(state, menus) {
       state.routes = menus;
     }
   }
