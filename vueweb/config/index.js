@@ -10,9 +10,18 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {},
+    proxyTable: {
+      '/': {
+        target: 'http://119.119.118.49:8888',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/': ''
+        }
+      }
+    },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: process.env.HOST, // can be overwritten by process.env.HOST
     port: 8001, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
@@ -37,8 +46,9 @@ module.exports = {
 
   build: {
     // 打包配置文件
-    prodEnv: require('./prod.env'),
+    testEnv: require('./dev.env'),
     testEnv: require('./test.env'),
+    prodEnv: require('./prod.env'),
 
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
@@ -47,7 +57,7 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     // 打包至springboot,如有项目名需指定
-    assetsPublicPath: '/security-service/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

@@ -2,7 +2,6 @@
 import axios from "axios"
 import {Message} from "element-ui"
 import router from '../router/router'
-import API from './api'
 
 // 解决前后分离跨域Session一致性问题
 axios.defaults.withCredentials = true;
@@ -33,10 +32,12 @@ axios.interceptors.response.use(data => {
   });
 })
 
+const baseUrl = process.env.API_ROOT;
+
 export const postRequest = (path, params) => {
   return axios({
     method: "post",
-    url: API.BaseUrl + path,
+    url: `${baseUrl}` + `${path}`,
     data: JSON.stringify(params),
     headers: {
       "Content-Type": "application/json"
