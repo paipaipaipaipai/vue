@@ -50,7 +50,7 @@
               if (data.status == 1) {
                 that.$store.commit("login", data.data);
                 that.$router.replace({
-                  path: "/index"
+                  path: "/main"
                 });
               }
             });
