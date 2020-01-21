@@ -53,6 +53,8 @@ export const formatRoutes = (routes) => {
           "path": child.menuRouter,
           "iconCls": child.menuIcon,
           "component": resolve => require(['../components/' + child.menuComponent + '.vue'], resolve),
+          "hidden": child.hidden,
+          "meta": child.meta
         });
       })
     }
@@ -61,7 +63,9 @@ export const formatRoutes = (routes) => {
       "path": router.menuRouter,
       "iconCls": router.menuIcon,
       "component": resolve => require(['../components/' + router.menuComponent + '.vue'], resolve),
-      "children": children
+      "children": children,
+      "hidden": router.hidden,
+      "meta": router.meta
     });
   })
   return fmRoutes;

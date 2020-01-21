@@ -1,16 +1,64 @@
 <template>
   <div>
-    <h1>{{ msg }}</h1>
-    <img src="../assets/2.jpg" class='avatar' alt="">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+    <img src="../assets/abc.gif">
+
   </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        msg: 'hello+hello=hello+hello'
-      }
-    }
-  }
 </script>

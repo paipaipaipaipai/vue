@@ -11,7 +11,7 @@
           <el-button type="success" size="mini" style="margin-left: 5px" icon="el-icon-plus" @click="showAddDialog">创建用户</el-button>
         </div>
       </el-header>
-
+      
       <!-- 表格 -->
       <el-main style="padding-left: 0px;padding-top: 0px">
         <el-table :data="users" v-loading="loading" border stripe size="mini" style="width: 100%;text-align: center;">
@@ -26,6 +26,9 @@
               <el-button type="primary" size="mini" style="padding: 3px 4px;margin: 2px" @click="showEditDialog(scope.row)">编辑</el-button>
               <el-button type="primary" size="mini" style="padding: 3px 4px;margin: 2px" @click="resetPassword(scope.row)">重置密码</el-button>
               <el-button type="danger" size="mini" style="padding: 3px 4px;margin: 2px" @click="deleteUser(scope.row)">删除</el-button>
+              <router-link to="/sys/user/userInfo">
+                <el-button type="danger" size="mini" style="padding: 3px 4px;margin: 2px">跳板</el-button>
+              </router-link>
             </template>
           </el-table-column>
         </el-table>

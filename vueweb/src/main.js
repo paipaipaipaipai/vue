@@ -25,7 +25,7 @@ Vue.prototype.API = API;
 
 router.beforeEach((to, from, next) => {
   if (to.name == 'Login') {
-	  store.commit("clear");
+    store.commit("clear");
     next();
     return;
   }
@@ -33,11 +33,17 @@ router.beforeEach((to, from, next) => {
   if (userName === "" || userName == undefined) {
     next({
       path: '/'
-    })
-  } else {
-    initMenu(router, store);
-    next();
+    });
+    return;
   }
+  if (store.state.routes.length > 0 && to.matched.length == 0) {
+    Message.warning({
+      message: "无权限"
+    });
+    return;
+  }
+  initMenu(router, store);
+  next();
 })
 
 /* eslint-disable no-new */

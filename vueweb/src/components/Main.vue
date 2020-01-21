@@ -18,7 +18,7 @@
       </el-header>
       <el-container>
         <el-aside style="background-color: #ECECEC;width: 180px;">
-          <el-menu style="background: #ececec;text-align: left;" :default-active="$route.path" unique-opened router>
+          <el-menu style="background: #ececec;text-align: left;" :default-active="activeMenu" unique-opened router>
             <template v-for="(item,index) in this.routes">
               <!-- 展示一级菜单 + 二级菜单 -->
               <el-submenu v-if="!item.folding" :key="index" :index="index+''">
@@ -26,9 +26,11 @@
                   <i class="el-icon-setting" style="color: #20a0ff;width: 15px;"></i>
                   <span slot="title">{{item.name}}</span>
                 </template>
-                <el-menu-item style="padding-left: 50px;width: 180px;min-width: 180px;" v-for="child in item.children"
-                  :index="child.path" :key="child.menuId">{{child.name}}
-                </el-menu-item>
+                <div v-for="child in item.children">
+                  <el-menu-item style="padding-left: 50px;width: 180px;min-width: 180px;" v-if="child.hidden == '1' "
+                    :index="child.path" :key="child.menuId">{{child.name}}
+                  </el-menu-item>
+                </div>
               </el-submenu>
               <!-- 默认折叠 只展示一级菜单 -->
               <el-menu-item v-else :key="index" :index="item.path" style="width: 180px;min-width: 180px;">
@@ -54,18 +56,36 @@
   export default {
     data() {
       return {
+        activeMenu: "",
         breadcrumbItem: []
       }
     },
+    watch: {
+      $route: function() {
+        let metaPath = this.$route.meta.metaPath;
+        if (metaPath != undefined) {
+          this.activeMenu = metaPath
+        } else {
+          this.activeMenu = this.$route.path;
+        }
+        this.getBreadcrumb();
+      }
+    },
     mounted: function() {
+      let metaPath = this.$route.meta.metaPath;
+      if (metaPath != undefined) {
+        this.activeMenu = metaPath
+      } else {
+        this.activeMenu = this.$route.path;
+      }
       this.getBreadcrumb();
     },
     methods: {
       getBreadcrumb() {
         var matched = this.$route.matched.filter(item => item.name);
         var first = matched[0];
-        if(first && first.path == '/index'){
-          matched=[first];
+        if (first && first.path == '/index') {
+          matched = [];
         }
         this.breadcrumbItem = matched;
       },
@@ -97,11 +117,6 @@
       },
       routes() {
         return this.$store.state.routes
-      }
-    },
-    watch: {
-      $route: function() {
-        this.getBreadcrumb();
       }
     }
   }

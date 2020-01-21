@@ -29,8 +29,8 @@
           }]
         },
         loginForm: {
-          username: "",
-          password: ""
+          username: "admin",
+          password: "12345"
         },
         loading: false
       }
