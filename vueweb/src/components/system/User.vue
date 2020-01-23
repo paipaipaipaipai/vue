@@ -26,9 +26,6 @@
               <el-button type="primary" size="mini" style="padding: 3px 4px;margin: 2px" @click="showEditDialog(scope.row)">编辑</el-button>
               <el-button type="primary" size="mini" style="padding: 3px 4px;margin: 2px" @click="resetPassword(scope.row)">重置密码</el-button>
               <el-button type="danger" size="mini" style="padding: 3px 4px;margin: 2px" @click="deleteUser(scope.row)">删除</el-button>
-              <router-link to="/sys/user/userInfo">
-                <el-button type="danger" size="mini" style="padding: 3px 4px;margin: 2px">跳板</el-button>
-              </router-link>
             </template>
           </el-table-column>
         </el-table>

@@ -17,36 +17,35 @@
         </div>
       </el-header>
       <el-container>
-        <el-aside style="background-color: #ECECEC;width: 180px;">
-          <el-menu style="background: #ececec;text-align: left;" :default-active="activeMenu" unique-opened router>
+        <el-aside style="background-color: #ECECEC;width: 180px;overflow: hidden;">
+          <el-menu style="background: #ECECEC;text-align: left;" :default-active="$route.path" unique-opened router>
             <template v-for="(item,index) in this.routes">
               <!-- 展示一级菜单 + 二级菜单 -->
-              <el-submenu v-if="!item.folding" :key="index" :index="index+''">
-                <template slot="title">
-                  <i class="el-icon-setting" style="color: #20a0ff;width: 15px;"></i>
-                  <span slot="title">{{item.name}}</span>
-                </template>
-                <div v-for="child in item.children">
-                  <el-menu-item style="padding-left: 50px;width: 180px;min-width: 180px;" v-if="child.hidden == '1' "
-                    :index="child.path" :key="child.menuId">{{child.name}}
+              <div v-if="!item.hidden">
+                <el-submenu v-if="item.isMenu" :key="index" :index="index+''">
+                  <template slot="title">
+                    <i class="el-icon-setting" style="color: #20a0ff;width: 15px;"></i>
+                    <span slot="title">{{item.name}}</span>
+                  </template>
+                  <el-menu-item style="padding-left: 50px;" v-for="child in item.children" :index="child.path" :key="child.menuId">{{child.name}}
                   </el-menu-item>
-                </div>
-              </el-submenu>
-              <!-- 默认折叠 只展示一级菜单 -->
-              <el-menu-item v-else :key="index" :index="item.path" style="width: 180px;min-width: 180px;">
-                <i class="el-icon-setting" style="width: 15px;"></i>
-                <span slot="title">{{item.name}}</span>
-              </el-menu-item>
+                </el-submenu>
+                <!-- 默认折叠 只展示一级菜单 -->
+                <el-menu-item v-else v-for="child in item.children" :key="index" :index="child.path">
+                  <i class="el-icon-setting" style="color: #20a0ff;width: 15px;"></i>
+                  <span slot="title">{{child.name}}</span>
+                </el-menu-item>
+              </div>
             </template>
           </el-menu>
         </el-aside>
         <el-main>
-          <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb>
             <el-breadcrumb-item v-for='(item,index) in breadcrumbItem' :key='index' v-if='item.name'>
               {{item.name}}
             </el-breadcrumb-item>
           </el-breadcrumb>
-          <router-view></router-view>
+          <router-view style="margin-top: 10px;"></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -56,36 +55,26 @@
   export default {
     data() {
       return {
-        activeMenu: "",
         breadcrumbItem: []
       }
     },
     watch: {
       $route: function() {
-        let metaPath = this.$route.meta.metaPath;
-        if (metaPath != undefined) {
-          this.activeMenu = metaPath
-        } else {
-          this.activeMenu = this.$route.path;
-        }
         this.getBreadcrumb();
       }
     },
     mounted: function() {
-      let metaPath = this.$route.meta.metaPath;
-      if (metaPath != undefined) {
-        this.activeMenu = metaPath
-      } else {
-        this.activeMenu = this.$route.path;
-      }
       this.getBreadcrumb();
     },
     methods: {
       getBreadcrumb() {
         var matched = this.$route.matched.filter(item => item.name);
         var first = matched[0];
-        if (first && first.path == '/index') {
-          matched = [];
+        if (first.path != '/index') {
+          matched = [{
+            path: '/index',
+            name: "首页"
+          }].concat(matched)
         }
         this.breadcrumbItem = matched;
       },
@@ -132,6 +121,7 @@
   }
 
   .home-header {
+    overflow: hidden;
     background-color: #20a0ff;
     color: #333;
     text-align: center;

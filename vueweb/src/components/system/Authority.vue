@@ -66,6 +66,7 @@
         if (roleId === "") {
           this.checkedKeys = [];
         } else {
+          this.checkedKeys=[];
           var that = this;
           this.postRequest(this.API.RoleMenus, {
             "roleId": roleId

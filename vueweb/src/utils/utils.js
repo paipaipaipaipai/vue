@@ -1,3 +1,4 @@
+import {constantRouterMap} from '../router/router'
 import {postRequest} from './axios'
 import {Message} from 'element-ui'
 import API from './api'
@@ -24,26 +25,13 @@ export const initMenu = (router, store) => {
     if (data.status == 1) {
       var fmtRoutes = formatRoutes(data.data);
       router.addRoutes(fmtRoutes);
-      store.commit('initMenu', fmtRoutes);
+      store.commit('initMenu', constantRouterMap.concat(fmtRoutes));
     }
   });
 }
 
 export const formatRoutes = (routes) => {
   let fmRoutes = [];
-  fmRoutes.push({
-    "name": "首页",
-    "path": "/index",
-    "iconCls": null,
-    "component": resolve => require(['../components/Main.vue'], resolve),
-    "folding":true,
-    "children": [{
-      "name": "首页",
-      "path": "/index",
-      "iconCls": null,
-      "component": resolve => require(['../components/Index.vue'], resolve),
-    }]
-  });
   routes.forEach(router => {
     var children = [];
     if (router.childMenus && router.childMenus.length > 0) {
@@ -53,8 +41,8 @@ export const formatRoutes = (routes) => {
           "path": child.menuRouter,
           "iconCls": child.menuIcon,
           "component": resolve => require(['../components/' + child.menuComponent + '.vue'], resolve),
-          "hidden": child.hidden,
-          "meta": child.meta
+          "hidden": false,
+          "isMenu": true
         });
       })
     }
@@ -64,8 +52,8 @@ export const formatRoutes = (routes) => {
       "iconCls": router.menuIcon,
       "component": resolve => require(['../components/' + router.menuComponent + '.vue'], resolve),
       "children": children,
-      "hidden": router.hidden,
-      "meta": router.meta
+      "hidden": false,
+      "isMenu": true
     });
   })
   return fmRoutes;
