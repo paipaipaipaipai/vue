@@ -27,7 +27,8 @@
                     <i class="el-icon-setting" style="color: #20a0ff;width: 15px;"></i>
                     <span slot="title">{{item.name}}</span>
                   </template>
-                  <el-menu-item style="padding-left: 50px;" v-for="child in item.children" :index="child.path" :key="child.menuId">{{child.name}}
+                  <el-menu-item v-if="child.isMenu" style="padding-left: 50px;" v-for="child in item.children" :index="child.path"
+                    :key="child.menuId">{{child.name}}
                   </el-menu-item>
                 </el-submenu>
                 <!-- 默认折叠 只展示一级菜单 -->

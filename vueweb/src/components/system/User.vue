@@ -11,7 +11,7 @@
           <el-button type="success" size="mini" style="margin-left: 5px" icon="el-icon-plus" @click="showAddDialog">创建用户</el-button>
         </div>
       </el-header>
-      
+
       <!-- 表格 -->
       <el-main style="padding-left: 0px;padding-top: 0px">
         <el-table :data="users" v-loading="loading" border stripe size="mini" style="width: 100%;text-align: center;">
@@ -225,7 +225,9 @@
               "status": this.user.status,
               "roles": this.user.roles
             }).then(resp => {
-              that.btnDisabled = false;
+              setTimeout(() => {
+                that.btnDisabled = false;
+              }, 1000);
               var data = resp.data;
               if (data.status == 1) {
                 that.dialogVisible = false;

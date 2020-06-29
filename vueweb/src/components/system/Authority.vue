@@ -96,7 +96,9 @@
           "checkedKeys": checkedKeys
         }).then(resp => {
           that.loading = false;
-          that.btnDisabled = false;
+          setTimeout(() => {
+            that.btnDisabled = false;
+          }, 1000);
           var data = resp.data;
           if (data.status == 1) {
             that.emptyData();

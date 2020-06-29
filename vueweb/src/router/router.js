@@ -3,6 +3,9 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import Main from '@/components/Main'
 import Index from '@/components/Index'
+import One from '@/components/test/One.vue'
+import Two from '@/components/test/Two.vue'
+import Three from '@/components/test/Three.vue'
 
 Vue.use(Router)
 
@@ -12,14 +15,14 @@ Router.prototype.push = function push(location) {
 }
 
 export const constantRouterMap = [{
-  path: '/',
   name: '',
+  path: '/',
   component: Login,
   hidden: true,
   isMenu: false,
 }, {
-  path: '/main',
   name: '',
+  path: '/main',
   component: Main,
   hidden: false,
   isMenu: false,
@@ -31,6 +34,35 @@ export const constantRouterMap = [{
     component: Index,
     hidden: false,
     isMenu: true
+  }]
+}, {
+  name: 'Test',
+  path: '/test',
+  component: Main,
+  hidden: false,
+  isMenu: true,
+  children: [{
+    name: "One",
+    path: "/test/one",
+    iconCls: null,
+    component: One,
+    hidden: false,
+    isMenu: true,
+    children: [{
+      name: "Three",
+      path: "/test/one/three",
+      iconCls: null,
+      component: Three,
+      hidden: true,
+      isMenu: false
+    }]
+  }, {
+    name: "Two",
+    path: "/test/two",
+    iconCls: null,
+    component: Two,
+    hidden: true,
+    isMenu: false
   }]
 }]
 
