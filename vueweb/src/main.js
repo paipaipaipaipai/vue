@@ -9,7 +9,10 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 切换到项目根目录,安装vuex: cnpm i vuex -S
 import store from './store/store' // 引入store
 import {Message} from 'element-ui'
+import {getRequest} from './utils/axios'
 import {postRequest} from './utils/axios'
+import {getRequestEQ} from './utils/axios'
+import {postRequestEQ} from './utils/axios'
 import {initMenu} from './utils/utils'
 import {isNotNullORBlank} from './utils/utils'
 import API from './utils/api'
@@ -19,7 +22,10 @@ Vue.config.productionTip = false
 // Vue使用ElementUI
 Vue.use(ElementUI)
 
+Vue.prototype.getRequest = getRequest;
 Vue.prototype.postRequest = postRequest;
+Vue.prototype.getRequestEQ = getRequestEQ;
+Vue.prototype.postRequestEQ = postRequestEQ;
 Vue.prototype.message = Message;
 Vue.prototype.API = API;
 
